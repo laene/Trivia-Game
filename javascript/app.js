@@ -30,7 +30,7 @@ var triviaQuestions = [
     {
         Q: "How old is our solar system?",
         correctA: "4.6 billion years old",
-        A: ["10.2 billion years old", "4.6 billion years old","7,567 years old", "5.4 million years old"]
+        A: ["10.2 billion years old", "4.6 billion years old", "7,567 years old", "5.4 million years old"]
     },
     {
         Q: "A lightyear is equal to approximately how many miles?",
@@ -38,15 +38,43 @@ var triviaQuestions = [
         A: ["1.2 billion miles", "145 thousand miles", "90 million miles", "5.88 trillion miles"]
     },
     {
-        Q:"Which galaxy is the closest to us?",
+        Q: "Which galaxy is the closest to us?",
         correctA: "Andromeda Galaxy",
         A: ["Andromeda Galaxy", "Alpha Centauri", "Orion Galaxy", "Kuiper Galaxy"]
-    }
+    },
+    {
+        Q: "How many astronomical units (AU) is Earth from the Sun?",
+        correctA: "1 AU",
+        A: ["1 AU", "1,000 AU", "90 AU", "10 AU"]
+    },
+    {
+        Q: "On Venus, it snows ______ and rains ______.",
+        correctA: "metal, sulfuric acid",
+        A: ["carbon monoxide, ammonia", "metal, sulfuric acid", "limestone, magma", "dihydrogen monoxide, mercury"]
+    },
+    {
+        Q: "What is the brightest star in the night sky?",
+        correctA: "Sirius",
+        A: ["Polaris (The North Star)", "Beetleguise", "Sirius", "Pandora"]
+    },
+    {
+        Q: "What is the farthest star the Hubble Telescope has found?",
+        correctA: "Icarus",
+        A: ["Endymion", "Antigone", "Pericles", "Icarus"]
+    },
+    {
+        Q: "What is the closest star to Earth?",
+        correctA: "Proxima Centauri",
+        A: ["Proxima Centauri", "Sirius", "Alpha Centauri", "Polaris"],
+    },
 ]
 //------------------------------------------------
 
 //Prints questions and answers to the screen.
 function printQA() {
+    if (q == triviaQuestions.length) {
+        q = 0;
+    }
     document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
     document.getElementById("gameA1").innerText = triviaQuestions[q].A[0];
     document.getElementById("gameA2").innerText = triviaQuestions[q].A[1];
@@ -67,32 +95,33 @@ function guessingTime() {
 //This stores each answer click as a variable and calls the guessing time function
 function guesses() {
     console.log("function!");
-    $("#gameA1").on('click', function() {
+    $("#gameA1").on('click', function () {
         answer = triviaQuestions[q].A[0];
         guessingTime();
     })
-    $("#gameA2").on('click', function() {
+    $("#gameA2").on('click', function () {
         answer = triviaQuestions[q].A[1];
         guessingTime();
     })
-    $("#gameA3").on('click', function() {
+    $("#gameA3").on('click', function () {
         answer = triviaQuestions[q].A[2];
         guessingTime();
     })
-    $("#gameA4").on('click', function() {
+    $("#gameA4").on('click', function () {
         answer = triviaQuestions[q].A[3];
         guessingTime();
     })
 
 }
+//This starts the game when the user hits "Start!"
+
 
 //This tells the computer to finish loading the html before starting any functions.
 window.onload = function now() {
+    $("#btn-start").on('click', function () {
+        console.log(triviaQuestions);
+        printQA();
+        guesses();
 
-//This starts the game when the user hits "Start!"
-$("#btn-start").on('click', function() {
-    console.log(triviaQuestions);
-    printQA();
-    guesses();
-})
+    })
 }
