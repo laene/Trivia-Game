@@ -15,7 +15,7 @@ var score = 0;
 var correct = false;
 var answer = "";
 var q = 0;
-
+//-----Question/Answer Array-------------------
 var triviaQuestions = [
     {
         Q: "How many earths can fit inside of the sun?",
@@ -31,10 +31,21 @@ var triviaQuestions = [
         Q: "How old is our solar system?",
         correctA: "4.6 billion years old",
         A: ["10.2 billion years old", "4.6 billion years old","7,567 years old", "5.4 million years old"]
+    },
+    {
+        Q: "A lightyear is equal to approximately how many miles?",
+        correctA: "5.88 trillion miles",
+        A: ["1.2 billion miles", "145 thousand miles", "90 million miles", "5.88 trillion miles"]
+    },
+    {
+        Q:"Which galaxy is the closest to us?",
+        correctA: "Andromeda Galaxy",
+        A: ["Andromeda Galaxy", "Alpha Centauri", "Orion Galaxy", "Kuiper Galaxy"]
     }
 ]
+//------------------------------------------------
 
-//Prints questions/answers.
+//Prints questions and answers to the screen.
 function printQA() {
     document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
     document.getElementById("gameA1").innerText = triviaQuestions[q].A[0];
@@ -43,6 +54,7 @@ function printQA() {
     document.getElementById("gameA4").innerText = triviaQuestions[q].A[3];
 }
 
+//Used with each button click event to check if answer is correct.
 function guessingTime() {
     if (answer === triviaQuestions[q].correctA) {
         score++;
@@ -52,6 +64,7 @@ function guessingTime() {
     printQA();
 }
 
+//This stores each answer click as a variable and calls the guessing time function
 function guesses() {
     console.log("function!");
     $("#gameA1").on('click', function() {
@@ -73,7 +86,10 @@ function guesses() {
 
 }
 
+//This tells the computer to finish loading the html before starting any functions.
 window.onload = function now() {
+
+//This starts the game when the user hits "Start!"
 $("#btn-start").on('click', function() {
     console.log(triviaQuestions);
     printQA();
