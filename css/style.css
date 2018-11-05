@@ -1,0 +1,24 @@
+body {
+    background-image: url(../images/lubo-minar-1132314-unsplash.jpg);
+    color: goldenrod;
+    background-size: 100% 100%;
+}
+
+.content {
+    margin: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+.game-box {
+    justify-content: center;
+    text-align: center;
+}
+
+#trivia-answers {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
