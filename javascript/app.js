@@ -44,8 +44,7 @@ function printQA() {
 }
 
 function guessingTime() {
-    answer = triviaQuestions[0].A[0];
-    if (answer === triviaQuestions[0].correctA) {
+    if (answer === triviaQuestions[q].correctA) {
         score++;
         console.log("yay!");
     }
@@ -56,21 +55,25 @@ function guessingTime() {
 function guesses() {
     console.log("function!");
     $("#gameA1").on('click', function() {
+        answer = triviaQuestions[q].A[0];
         guessingTime();
     })
     $("#gameA2").on('click', function() {
+        answer = triviaQuestions[q].A[1];
         guessingTime();
     })
     $("#gameA3").on('click', function() {
+        answer = triviaQuestions[q].A[2];
         guessingTime();
     })
     $("#gameA4").on('click', function() {
+        answer = triviaQuestions[q].A[3];
         guessingTime();
     })
 
 }
 
-window.onload = function crystalClicks() {
+window.onload = function now() {
 $("#btn-start").on('click', function() {
     console.log(triviaQuestions);
     printQA();
