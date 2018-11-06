@@ -10,11 +10,17 @@
 //Question: What is the closest star to Earth? Answer: Proxima Centauri
 //------------------------------------------------------------------------
 
-//First I need to declare global variables I know I will need.
+//VARIABLES
+
+//user score
 var score = 0;
-var correct = false;
+
+//This global variable will later store the user answer choice so it can be compared to correctA.
 var userAnswer = "";
+
+//This variable keeps the game moving through the questions array.
 var q = 0;
+
 //-----Question/Answer Array-------------------
 var triviaQuestions = [
     {
@@ -70,47 +76,42 @@ var triviaQuestions = [
 ]
 //------------------------------------------------
 
-//Prints questions and answers to the screen.
+//GAME TIME FUNCTIONS!!! 
+
 function printQA() {
+    //resets game to beginning. Stop-gap before I add the "restart?" option button.
     if (q == triviaQuestions.length) {
         q = 0;
     }
+
+    //Prints the questions
     document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
-    $("#trivia-answers").empty();
-    for (var i = 0; i < triviaQuestions[q].A.length; i++) {
-        var answerBtn = $("<button>");
-        answerBtn.addClass("answers-btn");
-        answerBtn.attr("answer-choice", triviaQuestions[q].A[i]);
-        answerBtn.text(triviaQuestions[q].A[i]);
-        $("#trivia-answers").append(answerBtn);
-    }
-    $("#trivia-answers").on('click', function () {
-        console.log("clicks!");
-        userAnswer = $(answerBtn).attr("answer-choice");
-        console.log(userAnswer);
-        guessingTime();
-    })
+
+    //Prints the answers
+    $("#gameA1").text(triviaQuestions[q].A[0]);
+    $("#gameA2").text(triviaQuestions[q].A[1]);
+    $("#gameA3").text(triviaQuestions[q].A[2]);
+    $("#gameA4").text(triviaQuestions[q].A[3]);
+    
 }
 
+//Need to add function to show answer screen with image
 
-// document.getElementById("gameA1").innerText = triviaQuestions[q].A[0];
-// document.getElementById("gameA2").innerText = triviaQuestions[q].A[1];
-// document.getElementById("gameA3").innerText = triviaQuestions[q].A[2];
-// document.getElementById("gameA4").innerText = triviaQuestions[q].A[3];
-
-//Used with each button click event to check if answer is correct.
-function guessingTime() {
+function trackScore() {
     if (userAnswer === triviaQuestions[q].correctA) {
         score++;
-        console.log("yay!");
+        console.log("Score: " + score);
+        q++;
+        printQA();
     }
-    q++;
-    printQA();
+    else {
+        console.log("Score: " + score);
+        q++;
+        printQA();
+    }
 }
 
-//This stores each answer click as a variable and calls the guessing time function
-
-//This starts the game when the user hits "Start!"
+//Need to add timer function (using "increment")
 
 
 //This tells the computer to finish loading the html before starting any functions.
@@ -118,6 +119,21 @@ window.onload = function now() {
     $("#btn-start").on('click', function () {
         console.log(triviaQuestions);
         printQA();
-
+    })
+    $("#gameA1").on('click', function () {
+        userAnswer = triviaQuestions[q].A[0];
+        trackScore();
+    })
+    $("#gameA2").on('click', function () {
+        userAnswer = triviaQuestions[q].A[1];
+        trackScore();
+    })
+    $("#gameA3").on('click', function () {
+        userAnswer = triviaQuestions[q].A[2];
+        trackScore();
+    })
+    $("#gameA4").on('click', function () {
+        userAnswer = triviaQuestions[q].A[3];
+        trackScore();
     })
 }
