@@ -13,7 +13,7 @@
 //First I need to declare global variables I know I will need.
 var score = 0;
 var correct = false;
-var answer = "";
+var userAnswer = "";
 var q = 0;
 //-----Question/Answer Array-------------------
 var triviaQuestions = [
@@ -76,15 +76,31 @@ function printQA() {
         q = 0;
     }
     document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
-    document.getElementById("gameA1").innerText = triviaQuestions[q].A[0];
-    document.getElementById("gameA2").innerText = triviaQuestions[q].A[1];
-    document.getElementById("gameA3").innerText = triviaQuestions[q].A[2];
-    document.getElementById("gameA4").innerText = triviaQuestions[q].A[3];
+    $("#trivia-answers").empty();
+    for (var i = 0; i < triviaQuestions[q].A.length; i++) {
+        var answerBtn = $("<button>");
+        answerBtn.addClass("answers-btn");
+        answerBtn.attr("answer-choice", triviaQuestions[q].A[i]);
+        answerBtn.text(triviaQuestions[q].A[i]);
+        $("#trivia-answers").append(answerBtn);
+    }
+    $("#trivia-answers").on('click', function () {
+        console.log("clicks!");
+        userAnswer = $(answerBtn).attr("answer-choice");
+        console.log(userAnswer);
+        guessingTime();
+    })
 }
+
+
+// document.getElementById("gameA1").innerText = triviaQuestions[q].A[0];
+// document.getElementById("gameA2").innerText = triviaQuestions[q].A[1];
+// document.getElementById("gameA3").innerText = triviaQuestions[q].A[2];
+// document.getElementById("gameA4").innerText = triviaQuestions[q].A[3];
 
 //Used with each button click event to check if answer is correct.
 function guessingTime() {
-    if (answer === triviaQuestions[q].correctA) {
+    if (userAnswer === triviaQuestions[q].correctA) {
         score++;
         console.log("yay!");
     }
@@ -93,26 +109,7 @@ function guessingTime() {
 }
 
 //This stores each answer click as a variable and calls the guessing time function
-function guesses() {
-    console.log("function!");
-    $("#gameA1").on('click', function () {
-        answer = triviaQuestions[q].A[0];
-        guessingTime();
-    })
-    $("#gameA2").on('click', function () {
-        answer = triviaQuestions[q].A[1];
-        guessingTime();
-    })
-    $("#gameA3").on('click', function () {
-        answer = triviaQuestions[q].A[2];
-        guessingTime();
-    })
-    $("#gameA4").on('click', function () {
-        answer = triviaQuestions[q].A[3];
-        guessingTime();
-    })
 
-}
 //This starts the game when the user hits "Start!"
 
 
@@ -121,7 +118,6 @@ window.onload = function now() {
     $("#btn-start").on('click', function () {
         console.log(triviaQuestions);
         printQA();
-        guesses();
 
     })
 }
