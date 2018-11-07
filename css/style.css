@@ -21,4 +21,15 @@ body {
     flex-direction: column;
     width: 50%;
     margin: auto;
+    position: relative;
 }
+/* 
+#empty-div {
+    width: 450px;
+    height: 250px;
+    margin: auto;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    color: white;
+} */

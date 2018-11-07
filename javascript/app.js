@@ -15,6 +15,8 @@
 //user score
 var score = 0;
 
+
+
 //This global variable will later store the user answer choice so it can be compared to correctA.
 var userAnswer = "";
 
@@ -78,47 +80,30 @@ var triviaQuestions = [
 
 //GAME TIME FUNCTIONS!!! 
 
-function printQA() {
-    //resets game to beginning. Stop-gap before I add the "restart?" option button.
-    if (q == triviaQuestions.length) {
-        q = 0;
-    }
 
-    //Prints the questions
-    document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
-
-    //Prints the answers
-    $("#gameA1").text(triviaQuestions[q].A[0]);
-    $("#gameA2").text(triviaQuestions[q].A[1]);
-    $("#gameA3").text(triviaQuestions[q].A[2]);
-    $("#gameA4").text(triviaQuestions[q].A[3]);
-    
-}
 
 //Need to add function to show answer screen with image
 
-function trackScore() {
-    if (userAnswer === triviaQuestions[q].correctA) {
-        score++;
-        console.log("Score: " + score);
-        q++;
-        printQA();
-    }
-    else {
-        console.log("Score: " + score);
-        q++;
-        printQA();
-    }
-}
+
 
 //Need to add timer function (using "increment")
 
 
+
 //This tells the computer to finish loading the html before starting any functions.
 window.onload = function now() {
+
+    //Don't worry about this. It's fine. Don 't look at the man in the box.
+    var opacBtn = $(".answers-btn")
+    opacBtn.animate({ opacity: 0 });
+
+    var opacDiv = $("#empty-div");
+    opacDiv.append("Oh Hi!");
+
     $("#btn-start").on('click', function () {
         console.log(triviaQuestions);
         printQA();
+        opacDiv.empty();
     })
     $("#gameA1").on('click', function () {
         userAnswer = triviaQuestions[q].A[0];
@@ -136,4 +121,53 @@ window.onload = function now() {
         userAnswer = triviaQuestions[q].A[3];
         trackScore();
     })
+
+    function printQA() {
+        //resets game to beginning. Stop-gap before I add the "restart?" option button.
+        if (q == triviaQuestions.length) {
+            q = 0;
+        }
+    
+        //Prints the questions
+        document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
+    
+        //Prints the answers
+        $("#gameA1").text(triviaQuestions[q].A[0]);
+        $("#gameA2").text(triviaQuestions[q].A[1]);
+        $("#gameA3").text(triviaQuestions[q].A[2]);
+        $("#gameA4").text(triviaQuestions[q].A[3]);
+    
+        opacBtn.animate({ opacity: 1 });
+    
+        //Calls the timer function
+        // var t = 30;
+        // setInterval(function () {
+        //     t -= 1;
+        //     $("#timer").text(t + " seconds remaining");
+        //     if (t=== 0) {
+        //         clearInterval();
+        //     }
+        // }, 1000
+        // );
+    
+    }
+
+    function trackScore() {
+    
+        if (userAnswer === triviaQuestions[q].correctA) {
+            score++;
+            console.log("Score: " + score);
+            q++;
+            printQA();
+        }
+        else {
+            console.log("Score: " + score);
+            q++;
+            printQA();
+        }
+    }
+
+    function windowPop() {
+
+    }
 }
