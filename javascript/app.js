@@ -11,18 +11,6 @@
 //------------------------------------------------------------------------
 
 //VARIABLES
-
-//user score
-var score = 0;
-
-
-
-//This global variable will later store the user answer choice so it can be compared to correctA.
-var userAnswer = "";
-
-//This variable keeps the game moving through the questions array.
-var q = 0;
-
 //-----Question/Answer Array-------------------
 var triviaQuestions = [
     {
@@ -76,98 +64,160 @@ var triviaQuestions = [
         A: ["Proxima Centauri", "Sirius", "Alpha Centauri", "Polaris"],
     },
 ]
+//user score
+var score = 0;
+
+//This global variable will later store the user answer choice so it can be compared to correctA.
+var userAnswer = "";
+
+//This variable keeps the game moving through the questions array.
+var q = 0;
+
+//This makes the buttons invisible between questions
+var opacBtn = $(".answers-btn")
+
+//This is where I give feedback after each questions
+var emptyDiv = $("#empty-div");
 //------------------------------------------------
 
 //GAME TIME FUNCTIONS!!! 
 
+//Answers for TAs who skipped astronomy classes in school
+for (var i = 0; i < triviaQuestions.length; i++) {
+    console.log((i + 1) + ": " + triviaQuestions[i].correctA);
+}
 
 
-//Need to add function to show answer screen with image
+//Hides answer buttons when not in use
+opacBtn.animate({ opacity: 0 });
 
 
+//START BUTTON
+$("#btn-start").on('click', function () {
+    q = 0;
+    printQA();
+    $("#btn-start").hide();
+})
 
-//Need to add timer function (using "increment")
+//ANSWER BUTTON CLICKS (stores user answer based on position in array)
+$("#gameA1").on('click', function () {
+    userAnswer = triviaQuestions[q].A[0];
+    trackScore();
+})
+$("#gameA2").on('click', function () {
+    userAnswer = triviaQuestions[q].A[1];
+    trackScore();
+})
+$("#gameA3").on('click', function () {
+    userAnswer = triviaQuestions[q].A[2];
+    trackScore();
+})
+$("#gameA4").on('click', function () {
+    userAnswer = triviaQuestions[q].A[3];
+    trackScore();
+})
 
+//PRINT QUESTIONS/ANSWERS (also calls TIMER function)
+function printQA() {
+    //resets game to beginning if out of questions
+    if (q == triviaQuestions.length) {
+        $("#btn-start").text("Play Again?")
+        $("#btn-start").show();
+        $("#empty-div").html("You Scored " + score + " out of 10!")
+        $("#trivia-questions").hide();
+        clearInterval(intervalId);
+        $("#timer").hide();
 
-
-//This tells the computer to finish loading the html before starting any functions.
-window.onload = function now() {
-
-    //Don't worry about this. It's fine. Don 't look at the man in the box.
-    var opacBtn = $(".answers-btn")
-    opacBtn.animate({ opacity: 0 });
-
-    var opacDiv = $("#empty-div");
-    opacDiv.append("Oh Hi!");
-
-    $("#btn-start").on('click', function () {
-        console.log(triviaQuestions);
-        printQA();
-        opacDiv.empty();
-    })
-    $("#gameA1").on('click', function () {
-        userAnswer = triviaQuestions[q].A[0];
-        trackScore();
-    })
-    $("#gameA2").on('click', function () {
-        userAnswer = triviaQuestions[q].A[1];
-        trackScore();
-    })
-    $("#gameA3").on('click', function () {
-        userAnswer = triviaQuestions[q].A[2];
-        trackScore();
-    })
-    $("#gameA4").on('click', function () {
-        userAnswer = triviaQuestions[q].A[3];
-        trackScore();
-    })
-
-    function printQA() {
-        //resets game to beginning. Stop-gap before I add the "restart?" option button.
-        if (q == triviaQuestions.length) {
-            q = 0;
-        }
-    
+    }
+    else {
         //Prints the questions
         document.getElementById("trivia-questions").innerText = triviaQuestions[q].Q;
-    
+
         //Prints the answers
         $("#gameA1").text(triviaQuestions[q].A[0]);
         $("#gameA2").text(triviaQuestions[q].A[1]);
         $("#gameA3").text(triviaQuestions[q].A[2]);
         $("#gameA4").text(triviaQuestions[q].A[3]);
-    
+
+        //Makes empty div empty and buttons visible again
+        emptyDiv.empty();
         opacBtn.animate({ opacity: 1 });
-    
-        //Calls the timer function
-        // var t = 30;
-        // setInterval(function () {
-        //     t -= 1;
-        //     $("#timer").text(t + " seconds remaining");
-        //     if (t=== 0) {
-        //         clearInterval();
-        //     }
-        // }, 1000
-        // );
-    
-    }
 
-    function trackScore() {
-    
-        if (userAnswer === triviaQuestions[q].correctA) {
-            score++;
-            console.log("Score: " + score);
-            q++;
-            printQA();
-        }
-        else {
-            console.log("Score: " + score);
-            q++;
-            printQA();
-        }
-    }
-
-    function windowPop() {
-
+        //Sets timer for amount of time per question
+        timer();
+        $("#timer").show();
     }
 }
+
+//KEEPS SCORE AND DETERMINES CORRECT/INCORRECT
+function trackScore() {
+    //IF YAY
+    if (userAnswer === triviaQuestions[q].correctA) {
+        score++;
+        windowPopC();
+        q++;
+    }
+    //IF NAY
+    else {
+        windowPopX();
+        q++;
+    }
+}
+
+//USER GUESSED CORRECTLY! -- EMPTY DIV CONTAINERS CONTENT
+function windowPopC() {
+    opacBtn.animate({ opacity: 0 });
+    emptyDiv.text("Correct!!!")
+    //Need to add photos and/or sound effects here
+    clearInterval(intervalId);
+    $("#timer").hide();
+    timer2();
+}
+//USER GUESSED INCORRECTLY  
+function windowPopX() {
+    opacBtn.animate({ opacity: 0 });
+    clearInterval(intervalId);
+    //Need to add photos and/or sound effects here
+    $("#timer").hide();
+    emptyDiv.html("Incorrect!" + "<br>" + "Correct Answer: " + triviaQuestions[q].correctA)
+    timer2();
+}
+
+
+//Timer variables (these are global)
+var intervalId;
+var time;
+
+//Question Timer
+function timer() {
+    time = 21;
+    clearInterval(intervalId);
+    intervalId = setInterval(decrement, 1000);
+};
+function decrement() {
+    time--;
+    $("#timer").html(time + " Seconds Remaining");
+    //If out of time
+    if (time === 0) {
+        windowPopX();
+        q++;
+        printQA();
+    };
+};
+
+//Feedback/Empty Div Timer Variables
+var intervalId2;
+var time2;
+
+function timer2() {
+    time2 = 3;
+    clearInterval(intervalId2);
+    intervalId2 = setInterval(decrement2, 1000);
+};
+function decrement2() {
+    time2--;
+    if (time2 === 0) {
+        emptyDiv.empty();
+        printQA();
+    };
+};
